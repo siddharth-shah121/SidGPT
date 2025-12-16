@@ -3,171 +3,112 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DECODE — FTC Game Manual AI</title>
+    <title>FTC DECODE Score Calculator</title>
     <style>
         body {
           margin: 0;
-          font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-          background: #0f172a;
+          font-family: system-ui, sans-serif;
+          background: radial-gradient(circle at top, #052e16, #020617 70%);
           color: #e5e7eb;
-          display: flex;
-          flex-direction: column;
-          height: 100vh;
+          min-height: 100vh;
         }
         header {
-          padding: 16px;
-          background: #020617;
-          border-bottom: 1px solid #1e293b;
-          font-size: 1.25rem;
-          font-weight: 600;
-          letter-spacing: 0.5px;
+          padding: 20px;
+          text-align: center;
+          font-size: 1.8rem;
+          font-weight: 700;
+          color: #4ade80;
+          text-shadow: 0 0 12px #22c55e;
         }
-        header span {
-          color: #38bdf8;
+        .container {
+          max-width: 900px;
+          margin: auto;
+          padding: 20px;
         }
-        #chat {
-          flex: 1;
-          padding: 16px;
-          overflow-y: auto;
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-        }
-        .msg {
-          max-width: 75%;
-          padding: 12px 14px;
+        .section {
+          background: rgba(2, 6, 23, 0.85);
+          border: 1px solid #14532d;
           border-radius: 14px;
-          line-height: 1.4;
-          white-space: pre-wrap;
+          padding: 16px;
+          margin-bottom: 20px;
+          box-shadow: 0 0 25px rgba(34,197,94,0.15);
         }
-        .user {
-          align-self: flex-end;
-          background: #2563eb;
+        .section h2 {
+          margin-top: 0;
+          color: #86efac;
         }
-        .bot {
-          align-self: flex-start;
-          background: #020617;
-          border: 1px solid #1e293b;
-        }
-        footer {
+        .row {
           display: flex;
-          padding: 12px;
-          gap: 8px;
-          border-top: 1px solid #1e293b;
-          background: #020617;
+          justify-content: space-between;
+          align-items: center;
+          margin: 8px 0;
         }
-        input {
-          flex: 1;
-          padding: 12px;
-          border-radius: 10px;
-          border: 1px solid #334155;
+        input[type="number"] {
+          width: 80px;
+          padding: 6px;
+          border-radius: 8px;
+          border: 1px solid #166534;
           background: #020617;
           color: #e5e7eb;
-          outline: none;
+          text-align: center;
         }
-        button {
-          padding: 12px 18px;
-          border-radius: 10px;
-          border: none;
-          background: #38bdf8;
-          color: #020617;
-          font-weight: 600;
-          cursor: pointer;
-        }
-        button:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
+        .total {
+          font-size: 1.4rem;
+          font-weight: 700;
+          text-align: center;
+          color: #4ade80;
+          text-shadow: 0 0 10px #22c55e;
         }
     </style>
 </head>
 <body>
-<header>DECODE <span>FTC Game Manual AI</span></header>
 
-<div id="chat"></div>
+<header>FTC DECODE – Score Calculator</header>
 
-<footer>
-    <input id="input" placeholder="Ask about the FTC DECODE game manual..." />
-    <button id="send">Send</button>
-</footer>
+<div class="container">
+
+    <div class="section">
+        <h2>Autonomous</h2>
+        <div class="row"><span>Decoded Elements Scored</span><input type="number" id="autoElements" value="0" min="0"></div>
+        <div class="row"><span>Robots Parked</span><input type="number" id="autoPark" value="0" min="0" max="2"></div>
+    </div>
+
+    <div class="section">
+        <h2>TeleOp</h2>
+        <div class="row"><span>Decoded Elements Scored</span><input type="number" id="teleElements" value="0" min="0"></div>
+    </div>
+
+    <div class="section">
+        <h2>End Game</h2>
+        <div class="row"><span>Robots Suspended</span><input type="number" id="endSuspend" value="0" min="0" max="2"></div>
+    </div>
+
+    <div class="section">
+        <h2>Penalties</h2>
+        <div class="row"><span>Minor Penalties</span><input type="number" id="minor" value="0" min="0"></div>
+        <div class="row"><span>Major Penalties</span><input type="number" id="major" value="0" min="0"></div>
+    </div>
+
+    <div class="section total" id="total">Total Score: 0</div>
+
+</div>
 
 <script>
-    /* ==============================
-       CONFIGURATION
-       ==============================
-       1. Create an OpenAI API key
-       2. Replace YOUR_API_KEY_HERE below
-       3. Host this file locally or online
-    */
+    function calculate() {
+      const autoElements = +document.getElementById('autoElements').value * 5;
+      const autoPark = +document.getElementById('autoPark').value * 10;
+      const teleElements = +document.getElementById('teleElements').value * 2;
+      const endSuspend = +document.getElementById('endSuspend').value * 20;
+      const minor = +document.getElementById('minor').value * 10;
+      const major = +document.getElementById('major').value * 30;
 
-    const OPENAI_API_KEY = "YOUR_API_KEY_HERE"; // <-- put your key here
-    const MODEL = "gpt-4.1-mini"; // or another chat-capable model
-
-    const systemPrompt = `You are DECODE, an expert AI assistant for the FIRST Tech Challenge (FTC) DECODE season.
-Your job is to answer questions strictly based on the official FTC Game Manual.
-If a question is outside the manual, say you cannot answer it.
-Be clear, concise, and cite section names when possible.`;
-
-    const chatDiv = document.getElementById("chat");
-    const input = document.getElementById("input");
-    const sendBtn = document.getElementById("send");
-
-    const messages = [
-      { role: "system", content: systemPrompt }
-    ];
-
-    function addMessage(text, className) {
-      const div = document.createElement("div");
-      div.className = `msg ${className}`;
-      div.textContent = text;
-      chatDiv.appendChild(div);
-      chatDiv.scrollTop = chatDiv.scrollHeight;
+      const total = autoElements + autoPark + teleElements + endSuspend - minor - major;
+      document.getElementById('total').textContent = `Total Score: ${Math.max(total,0)}`;
     }
 
-    async function sendMessage() {
-      const userText = input.value.trim();
-      if (!userText) return;
-
-      input.value = "";
-      addMessage(userText, "user");
-      messages.push({ role: "user", content: userText });
-
-      sendBtn.disabled = true;
-
-      try {
-        const response = await fetch("https://api.openai.com/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${OPENAI_API_KEY}`
-          },
-          body: JSON.stringify({
-            model: MODEL,
-            messages: messages,
-            temperature: 0.2
-          })
-        });
-
-        const data = await response.json();
-        const reply = data.choices[0].message.content;
-
-        messages.push({ role: "assistant", content: reply });
-        addMessage(reply, "bot");
-      } catch (err) {
-        addMessage("Error: Unable to contact DECODE AI.", "bot");
-      }
-
-      sendBtn.disabled = false;
-    }
-
-    sendBtn.addEventListener("click", sendMessage);
-    input.addEventListener("keydown", e => {
-      if (e.key === "Enter") sendMessage();
-    });
-
-    addMessage(
-      "Hi, I'm DECODE 🤖\nAsk me anything about the FTC DECODE Game Manual.",
-      "bot"
-    );
+    document.querySelectorAll('input').forEach(i => i.addEventListener('input', calculate));
+    calculate();
 </script>
+
 </body>
 </html>
