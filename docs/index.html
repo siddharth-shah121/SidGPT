@@ -52,6 +52,30 @@
           color: #e5e7eb;
           text-align: center;
         }
+        select {
+          padding: 6px;
+          border-radius: 8px;
+          border: 1px solid #166534;
+          background: #020617;
+          color: #e5e7eb;
+        }
+        .checkbox-group {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-top: 10px;
+        }
+        .checkbox-group label {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          cursor: pointer;
+          background: rgba(2,6,23,0.6);
+          padding: 6px 10px;
+          border-radius: 8px;
+          border: 1px solid #14532d;
+          box-shadow: 0 0 15px rgba(34,197,94,0.1);
+        }
         .total {
           font-size: 1.4rem;
           font-weight: 700;
@@ -71,6 +95,15 @@
         <h2>Autonomous</h2>
         <div class="row"><span>Decoded Elements Scored</span><input type="number" id="autoElements" value="0" min="0"></div>
         <div class="row"><span>Robots Parked</span><input type="number" id="autoPark" value="0" min="0" max="2"></div>
+        <div class="row"><span>Starting Motif</span>
+            <select id="startingMotif">
+                <option value="0">None</option>
+                <option value="10">Motif 1 (+10)</option>
+                <option value="10">Motif 2 (+10)</option>
+                <option value="10">Motif 3 (+10)</option>
+                <option value="10">Motif 4 (+10)</option>
+            </select>
+        </div>
     </div>
 
     <div class="section">
@@ -81,6 +114,16 @@
     <div class="section">
         <h2>End Game</h2>
         <div class="row"><span>Robots Suspended</span><input type="number" id="endSuspend" value="0" min="0" max="2"></div>
+    </div>
+
+    <div class="section">
+        <h2>Motifs</h2>
+        <div class="checkbox-group">
+            <label><input type="checkbox" class="motif" data-points="10"> Motif 1 (+10)</label>
+            <label><input type="checkbox" class="motif" data-points="10"> Motif 2 (+10)</label>
+            <label><input type="checkbox" class="motif" data-points="10"> Motif 3 (+10)</label>
+            <label><input type="checkbox" class="motif" data-points="10"> Motif 4 (+10)</label>
+        </div>
     </div>
 
     <div class="section">
@@ -97,16 +140,27 @@
     function calculate() {
       const autoElements = +document.getElementById('autoElements').value * 5;
       const autoPark = +document.getElementById('autoPark').value * 10;
+      const startingMotif = +document.getElementById('startingMotif').value;
       const teleElements = +document.getElementById('teleElements').value * 2;
       const endSuspend = +document.getElementById('endSuspend').value * 20;
       const minor = +document.getElementById('minor').value * 10;
       const major = +document.getElementById('major').value * 30;
 
-      const total = autoElements + autoPark + teleElements + endSuspend - minor - major;
+      // Additional Motifs calculation
+      let motifTotal = 0;
+      document.querySelectorAll('.motif').forEach(cb => {
+        if(cb.checked) motifTotal += +cb.dataset.points;
+      });
+
+      const total = autoElements + autoPark + startingMotif + teleElements + endSuspend + motifTotal - minor - major;
       document.getElementById('total').textContent = `Total Score: ${Math.max(total,0)}`;
     }
 
-    document.querySelectorAll('input').forEach(i => i.addEventListener('input', calculate));
+    // Add event listeners to all inputs and checkboxes
+    const inputs = document.querySelectorAll('input, select');
+    inputs.forEach(i => i.addEventListener('input', calculate));
+    document.querySelectorAll('.motif').forEach(cb => cb.addEventListener('change', calculate));
+
     calculate();
 </script>
 
