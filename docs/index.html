@@ -1,168 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FTC DECODE Score Calculator</title>
+    <meta charset="UTF-8">
+    <title>Export Robot Logcat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
-          margin: 0;
-          font-family: system-ui, sans-serif;
-          background: radial-gradient(circle at top, #052e16, #020617 70%);
-          color: #e5e7eb;
-          min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #0f172a;
+            color: #e5e7eb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
-        header {
-          padding: 20px;
-          text-align: center;
-          font-size: 1.8rem;
-          font-weight: 700;
-          color: #4ade80;
-          text-shadow: 0 0 12px #22c55e;
+
+        .card {
+            background-color: #020617;
+            padding: 32px;
+            border-radius: 12px;
+            max-width: 600px;
+            box-shadow: 0 0 30px rgba(0, 255, 150, 0.15);
         }
-        .container {
-          max-width: 900px;
-          margin: auto;
-          padding: 20px;
+
+        h1 {
+            margin-top: 0;
+            color: #22c55e;
+            text-align: center;
         }
-        .section {
-          background: rgba(2, 6, 23, 0.85);
-          border: 1px solid #14532d;
-          border-radius: 14px;
-          padding: 16px;
-          margin-bottom: 20px;
-          box-shadow: 0 0 25px rgba(34,197,94,0.15);
+
+        ul {
+            font-size: 18px;
+            line-height: 1.8;
         }
-        .section h2 {
-          margin-top: 0;
-          color: #86efac;
-        }
-        .row {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin: 8px 0;
-        }
-        input[type="number"] {
-          width: 80px;
-          padding: 6px;
-          border-radius: 8px;
-          border: 1px solid #166534;
-          background: #020617;
-          color: #e5e7eb;
-          text-align: center;
-        }
-        select {
-          padding: 6px;
-          border-radius: 8px;
-          border: 1px solid #166534;
-          background: #020617;
-          color: #e5e7eb;
-        }
-        .checkbox-group {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 10px;
-          margin-top: 10px;
-        }
-        .checkbox-group label {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          cursor: pointer;
-          background: rgba(2,6,23,0.6);
-          padding: 6px 10px;
-          border-radius: 8px;
-          border: 1px solid #14532d;
-          box-shadow: 0 0 15px rgba(34,197,94,0.1);
-        }
-        .total {
-          font-size: 1.4rem;
-          font-weight: 700;
-          text-align: center;
-          color: #4ade80;
-          text-shadow: 0 0 10px #22c55e;
+
+        li {
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-
-<header>FTC DECODE – Score Calculator</header>
-
-<div class="container">
-
-    <div class="section">
-        <h2>Autonomous</h2>
-        <div class="row"><span>Decoded Elements Scored</span><input type="number" id="autoElements" value="0" min="0"></div>
-        <div class="row"><span>Robots Parked</span><input type="number" id="autoPark" value="0" min="0" max="2"></div>
-        <div class="row"><span>Starting Motif</span>
-            <select id="startingMotif">
-                <option value="0">None</option>
-                <option value="10">Motif 1 (+10)</option>
-                <option value="10">Motif 2 (+10)</option>
-                <option value="10">Motif 3 (+10)</option>
-                <option value="10">Motif 4 (+10)</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="section">
-        <h2>TeleOp</h2>
-        <div class="row"><span>Decoded Elements Scored</span><input type="number" id="teleElements" value="0" min="0"></div>
-    </div>
-
-    <div class="section">
-        <h2>End Game</h2>
-        <div class="row"><span>Robots Suspended</span><input type="number" id="endSuspend" value="0" min="0" max="2"></div>
-    </div>
-
-    <div class="section">
-        <h2>Motifs</h2>
-        <div class="checkbox-group">
-            <label><input type="checkbox" class="motif" data-points="10"> Motif 1 (+10)</label>
-            <label><input type="checkbox" class="motif" data-points="10"> Motif 2 (+10)</label>
-            <label><input type="checkbox" class="motif" data-points="10"> Motif 3 (+10)</label>
-            <label><input type="checkbox" class="motif" data-points="10"> Motif 4 (+10)</label>
-        </div>
-    </div>
-
-    <div class="section">
-        <h2>Penalties</h2>
-        <div class="row"><span>Minor Penalties</span><input type="number" id="minor" value="0" min="0"></div>
-        <div class="row"><span>Major Penalties</span><input type="number" id="major" value="0" min="0"></div>
-    </div>
-
-    <div class="section total" id="total">Total Score: 0</div>
-
+<div class="card">
+    <h1>How to Export Robot Logcat</h1>
+    <ul>
+        <li>Connect your computer to the robot</li>
+        <li>Click <strong>Logcat</strong> in the bottom left of Android Studio</li>
+        <li>Click <strong>Delete</strong></li>
+        <li>Restart the robot</li>
+        <li>Reproduce the issue</li>
+        <li>Click <strong>Export</strong> and send the log</li>
+    </ul>
 </div>
-
-<script>
-    function calculate() {
-      const autoElements = +document.getElementById('autoElements').value * 5;
-      const autoPark = +document.getElementById('autoPark').value * 10;
-      const startingMotif = +document.getElementById('startingMotif').value;
-      const teleElements = +document.getElementById('teleElements').value * 2;
-      const endSuspend = +document.getElementById('endSuspend').value * 20;
-      const minor = +document.getElementById('minor').value * 10;
-      const major = +document.getElementById('major').value * 30;
-
-      // Additional Motifs calculation
-      let motifTotal = 0;
-      document.querySelectorAll('.motif').forEach(cb => {
-        if(cb.checked) motifTotal += +cb.dataset.points;
-      });
-
-      const total = autoElements + autoPark + startingMotif + teleElements + endSuspend + motifTotal - minor - major;
-      document.getElementById('total').textContent = `Total Score: ${Math.max(total,0)}`;
-    }
-
-    // Add event listeners to all inputs and checkboxes
-    const inputs = document.querySelectorAll('input, select');
-    inputs.forEach(i => i.addEventListener('input', calculate));
-    document.querySelectorAll('.motif').forEach(cb => cb.addEventListener('change', calculate));
-
-    calculate();
-</script>
-
 </body>
 </html>
