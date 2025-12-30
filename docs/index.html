@@ -20,8 +20,10 @@
             background-color: #020617;
             padding: 32px;
             border-radius: 12px;
-            max-width: 600px;
+            max-width: 950px;
             box-shadow: 0 0 30px rgba(0, 255, 150, 0.15);
+            overflow-y: auto;
+            max-height: 90vh;
         }
 
         h1 {
@@ -38,18 +40,53 @@
         li {
             margin-bottom: 10px;
         }
+
+        .inline-image {
+            display: block;
+            margin: 12px 0 28px 0;
+            max-width: 100%;
+            border-radius: 8px;
+            border: 1px solid #334155;
+        }
     </style>
 </head>
 <body>
 <div class="card">
     <h1>How to Export Robot Logcat</h1>
     <ul>
-        <li>Connect your computer to the robot</li>
-        <li>Click <strong>Logcat</strong> in the bottom left of Android Studio</li>
-        <li>Click <strong>Delete</strong></li>
-        <li>Restart the robot</li>
-        <li>Reproduce the issue</li>
-        <li>Click <strong>Export</strong> and send the log</li>
+        <li>
+            Connect your computer to the robot
+            <img src="rev-control-hub.png" class="inline-image" alt="">
+        </li>
+
+        <li>
+            Click <strong>Logcat</strong> in the bottom left of Android Studio
+            <img src="android-studio-logcat.png" class="inline-image" alt="">
+        </li>
+
+        <li>
+            Click <strong>Delete</strong>
+            <img src="clear-logcat.png" class="inline-image" alt="">
+        </li>
+
+        <li>
+            Restart the robot
+            <img src="driver-station-restart.png" class="inline-image" alt="">
+        </li>
+
+        <li>
+            Reproduce the issue
+            <img src="reproduce-issue-opmode.png" class="inline-image" alt="">
+        </li>
+
+        <li>
+            Click <strong>Export</strong> and send the log
+            <img
+                    src="export-logcat.png"
+                    alt="Export logs to a file in Android Studio Logcat"
+                    class="inline-image"
+            >
+        </li>
     </ul>
 </div>
 </body>
