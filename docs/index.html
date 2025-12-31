@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Export Robot Logcat</title>
+    <title>How to Make a Logcat for FTC</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
@@ -20,16 +20,24 @@
             background-color: #020617;
             padding: 32px;
             border-radius: 12px;
-            max-width: 950px;
+            max-width: 900px;
             box-shadow: 0 0 30px rgba(0, 255, 150, 0.15);
             overflow-y: auto;
             max-height: 90vh;
         }
 
         h1 {
-            margin-top: 0;
+            margin: 0;
             color: #22c55e;
             text-align: center;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 24px;
+            font-size: 16px;
         }
 
         ul {
@@ -38,21 +46,29 @@
         }
 
         li {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
+        /* Default image size */
         .inline-image {
             display: block;
-            margin: 12px 0 28px 0;
-            max-width: 100%;
+            margin: 10px 0 22px 0;
+            max-width: 70%;
             border-radius: 8px;
             border: 1px solid #334155;
+        }
+
+        /* Extra small image for final export step */
+        .inline-image.small {
+            max-width: 45%;
         }
     </style>
 </head>
 <body>
 <div class="card">
-    <h1>How to Export Robot Logcat</h1>
+    <h1>How to Make a Logcat for FTC</h1>
+    <div class="subtitle">by Sid Shah</div>
+
     <ul>
         <li>
             Connect your computer to the robot
@@ -83,8 +99,8 @@
             Click <strong>Export</strong> and send the log
             <img
                     src="export-logcat.png"
-                    alt="Export logs to a file in Android Studio Logcat"
-                    class="inline-image"
+                    class="inline-image small"
+                    alt="Export logs to a file in Android Studio"
             >
         </li>
     </ul>
